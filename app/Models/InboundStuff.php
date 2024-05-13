@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class InboundStuff extends Model
 {
     use SoftDeletes;
-    protected $fillable = ["stuff_id", "total", "date", "proff_file"];
+    protected $fillable = ["stuff_id", "total", "date", "proof_file"];
 
     public function stuff()
     {

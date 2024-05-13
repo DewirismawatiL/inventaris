@@ -17,4 +17,5 @@ class StuffStock extends Model
         return $this->belongsTo(Stuff::class);
         // return $this->belongsTo(Stuff::class, 'id', 'barang_id'); Apabila penamaan dari PK dan FK nya tidak sesuai standar
     }
+    
 }

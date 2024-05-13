@@ -17,34 +17,63 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->post('/login', 'AuthController@login');
+$router->get('/logout', 'AuthController@logout');
+$router->get('/profile', 'AuthController@me');
+
+//statis
 
 // STUFF
 // struktur pemanggilan route-> method('/namapath', 'NamaController@namaFunction');
-// trash untuk menampilkan data yang udah hapus
-// route diurutkan berdasarkan path yang tidak dinamis lalu yang dinamis, diurutkan dengan garis miringnya dari terkecil
+//route diurutkan berdasarkan path yg tdk dinamis lalu yg dinamis, diurutkan dgn garis miringnya dari terkecil
 $router->get('/stuffs', 'StuffController@index');
 $router->post('/stuffs/store', 'StuffController@store');
+// softDeletes : trash, restore, undo
 $router->get('/stuffs/trash', 'StuffController@trash');
 
+// USER
+$router->get('/users', 'UserController@index');
+$router->post('/users/store', 'UserController@store');
+$router->get('/users/trash', 'UserController@trash');
+
+//INBOUND STUFF
+$router->post('/inbound/store', 'InboundStuffController@store');
+$router->get('/inbound/data', 'InboundStuffController@index');
+$router->get('/inbound/trash', 'InboundStuffController@trash');
+
+//LENDING
+$router->post('/lending/store', 'LendingController@store');
+$router->get('/lending', 'LendingController@index');
+
+//RESTORATION
+$router->get('/restoration', 'RestorationController@index');
+
+
+//dinamis
+
+//STUFF
 $router->get('/stuffs/{id}', 'StuffController@show');
 $router->patch('/stuffs/update/{id}', 'StuffController@update');
 $router->delete('/stuffs/delete/{id}', 'StuffController@destroy');
-// softdeletes : trash, restore, undo
-$router->get('/stuffs/trash/restore/{id}', 'StuffController@restore');
-$router->get('/stuffs/trash/permanen-delete/{id}', 'StuffController@permanenDelete');
- 
-$router->get('/user', 'UserController@index');
-$router->post('/user/store', 'UserController@store');
-$router->get('/user/trash', 'UserController@trash');
+$router->get('/stuffs/restore/{id}', 'StuffController@restore');
+$router->get('/stuffs/permanen-delete/{id}', 'StuffController@permanenDelete');
 
-$router->get('/user/{id}', 'UserController@show');
-$router->delete('/user/delete/{id}', 'UserController@destroy');
-$router->get('/user/trash/restore/{id}', 'UserController@restore');
-$router->get('/user/trash/permanen-delete/{id}', 'UserController@permanenDelete');
+//USER
+$router->get('/users/{id}', 'UserController@show');
+$router->patch('/users/update/{id}', 'UserController@update');
+$router->delete('/users/delete/{id}', 'UserController@destroy');
+$router->get('/users/restore/{id}', 'UserController@restore');
+$router->get('/users/permanen-delete/{id}', 'UserController@permanenDelete');
 
-$router->get('/inbound-stuffs/data', 'InboundStuffController@index');
-$router->post('/inbound-stuffs/store','InboundStuffController@store');
-$router->post('/inbound-stuffs/delete/{id}','InboundStuffController@destroy');
-$router->get('/inbound-stuffs/trash', 'InboundStuffController@trash');
-$router->get('/restore/{id}', 'InboundStuffController@restore');
-$router->delete('/inbound-stuffs/permanent-delete/{id}', 'InboundStuffController@permanentDelete');
+//INBOUND 
+$router->delete('/inbound/delete/{id}', 'InboundStuffController@destroy');
+$router->get('/inbound/restore/{id}', 'InboundStuffController@restore');
+$router->delete('/inbound/permanen-delete/{id}', 'InboundStuffController@permanenDelete');
+
+//Lending 
+$router->delete('/lending/delete/{id}', 'LendingController@destroy');
+$router->get('/lendings/{id}', 'LendingController@show');
+
+//RESTORATION
+//buat data restoration (pengembalian) menggunakan params data lending_id agar data pengembalian dibuat berdasarkan data peminjamannya
+$router->post('/restoration/{lending_id}', 'RestorationController@store');
